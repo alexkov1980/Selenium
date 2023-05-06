@@ -2,6 +2,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class FormTest {
     private WebDriver driver;
@@ -24,6 +25,11 @@ public class FormTest {
 
     @Test
     public void shouldTestForm() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Ковалев Алексей");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79094300314");
