@@ -3,34 +3,35 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 public class FormTest {
     private WebDriver driver;
 
     @BeforeAll
     static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver", "./webdriver/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
     void setUp() {
-        driver = new ChromeDriver();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        driver.quit();
-        driver = null;
-    }
-
-    @Test
-    public void shouldTestForm() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get("http://localhost:9999");
+    }
+
+    @AfterEach
+    void tearDown() {
+        driver.quit();
+        driver = null;
+    }
+
+    @Test
+    public void shouldTestForm() {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Ковалев Алексей");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79094300314");
         driver.findElement(By.cssSelector("[data-test-id='agreement']")).click();
